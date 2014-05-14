@@ -134,6 +134,8 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
 
 # Check and run gulp
 
+echo before gulp
+
 if [ -f $build_dir/gulpfile.js ]; then
   # get the env vars
   if [ -d "$env_dir" ]; then
@@ -148,6 +150,8 @@ else
   status "No gulpfile found"
 fi
 
+echo after gulp
+
 # Post package.json to nomnom service
 # Use a subshell so failures won't break the build.
 curl \
@@ -155,4 +159,6 @@ curl \
   --request POST \
   --header "content-type: application/json" \
   https://nomnom.heroku.com/?request_id=$REQUEST_ID 
+  
+echo we should be around here
 
