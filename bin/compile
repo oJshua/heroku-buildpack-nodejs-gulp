@@ -133,29 +133,26 @@ mkdir -p $build_dir/.profile.d
 echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\$PATH\";" > $build_dir/.profile.d/nodejs.sh
 
 # Check and run gulp
-(
-  if [ -f $build_dir/gulpfile.js ]; then
-    # get the env vars
-    if [ -d "$env_dir" ]; then
-      status "Exporting config vars to environment"
-      export_env_dir $env_dir
-    fi
 
-    # Install gulp locally
-    npm install gulp
-    status "Found gulpfile, running gulp heroku:$NODE_ENV task"
-    $build_dir/node_modules/.bin/gulp heroku:$NODE_ENV
-  else
-    status "No gulpfile found"
+if [ -f $build_dir/gulpfile.js ]; then
+  # get the env vars
+  if [ -d "$env_dir" ]; then
+    status "Exporting config vars to environment"
+    export_env_dir $env_dir
   fi
-)
+
+  status "Found gulpfile, running gulp heroku:$NODE_ENV task"
+  #$build_dir/node_modules/.bin/gulp heroku:$NODE_ENV
+  node $build_dir/node_modules/gulp/bin/gulp.js heroku:$NODE_ENV
+else
+  status "No gulpfile found"
+fi
 
 # Post package.json to nomnom service
 # Use a subshell so failures won't break the build.
-(
-  curl \
-    --data @$build_dir/package.json \
-    --request POST \
-    --header "content-type: application/json" \
-    https://nomnom.heroku.com/?request_id=$REQUEST_ID 
-) &
+curl \
+  --data @$build_dir/package.json \
+  --request POST \
+  --header "content-type: application/json" \
+  https://nomnom.heroku.com/?request_id=$REQUEST_ID 
+
