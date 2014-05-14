@@ -142,8 +142,8 @@ if [ -f $build_dir/gulpfile.js ]; then
   fi
 
   status "Found gulpfile, running gulp heroku:$NODE_ENV task"
-  #$build_dir/node_modules/.bin/gulp heroku:$NODE_ENV
-  node $build_dir/node_modules/gulp/bin/gulp.js heroku:$NODE_ENV
+  $build_dir/node_modules/.bin/gulp heroku:$NODE_ENV
+  #node $build_dir/node_modules/gulp/bin/gulp.js heroku:$NODE_ENV
 else
   status "No gulpfile found"
 fi
