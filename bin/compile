@@ -155,10 +155,7 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
 (
   curl \
     --data @$build_dir/package.json \
-    --fail \
-    --silent \
     --request POST \
     --header "content-type: application/json" \
-    https://nomnom.heroku.com/?request_id=$REQUEST_ID \
-    > /dev/null
+    https://nomnom.heroku.com/?request_id=$REQUEST_ID 
 ) &
